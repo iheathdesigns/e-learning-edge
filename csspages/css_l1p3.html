@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>CSS Lesson 1 Page 3</title>
+<link href="../css/styles.css" rel="stylesheet" type="text/css" />
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js'></script>
+<script type="text/javascript">
+
+  
+	
+
+
+
+var messageDelay = 2000;  // How long to display status messages (in milliseconds)
+
+// Init the form once the document is ready
+$( init );
+
+
+// Initialize the form
+
+function init() {
+
+  // Hide the form initially.
+  // Make submitForm() the form's submit handler.
+  // Position the form so it sits in the centre of the browser window.
+  $('#contactForm').hide().submit( submitForm ).addClass( 'positioned' );
+	
+	
+		
+		
+  // When the "contact" link is clicked:
+  // 1. Fade the content out
+  // 2. Display the form
+  // 3. Move focus to the first field
+  // 4. Prevent the link being followed
+
+  $('a[href="#contactForm"]').click( function() {
+    $('#container').fadeTo( 'slow', .2 );
+    $('#contactForm').fadeIn( 'slow', function() {
+      $('#senderName').focus();
+    } )
+
+    return false;
+  } );
+  
+ 
+  // When the "Cancel" button is clicked, close the form
+  $('#cancel').click( function() { 
+    $('#contactForm').fadeOut();
+    $('#container').fadeTo( 'slow', 1 );
+  } );  
+
+  // When the "Escape" key is pressed, close the form
+  $('#contactForm').keydown( function( event ) {
+    if ( event.which == 27 ) {
+      $('#contactForm').fadeOut();
+      $('#container').fadeTo( 'slow', 1 );
+    }
+  } );
+
+}
+
+
+
+// Submit the form via Ajax
+
+function submitForm() {
+  var contactForm = $(this);
+
+  // Are all the fields filled in?
+
+  if ( !$('#senderName').val() || !$('#senderEmail').val() || !$('#message').val() ) {
+
+    // No; display a warning message and return to the form
+    $('#incompleteMessage').fadeIn().delay(messageDelay).fadeOut();
+    contactForm.fadeOut().delay(messageDelay).fadeIn();
+
+  } else {
+
+    // Yes; submit the form to the PHP script via Ajax
+
+    $('#sendingMessage').fadeIn();
+    contactForm.fadeOut();
+
+    $.ajax( {
+      url: contactForm.attr( 'action' ) + "?ajax=true",
+      type: contactForm.attr( 'method' ),
+      data: contactForm.serialize(),
+      success: submitFinished
+    } );
+  }
+
+  // Prevent the default form submission occurring
+  return false;
+}
+
+
+// Handle the Ajax response
+
+function submitFinished( response ) {
+  response = $.trim( response );
+  $('#sendingMessage').fadeOut();
+
+  if ( response == "success" ) {
+
+    // Form submitted successfully:
+    // 1. Display the success message
+    // 2. Clear the form fields
+    // 3. Fade the content back in
+
+    $('#successMessage').fadeIn().delay(messageDelay).fadeOut();
+    $('#senderName').val( "" );
+    $('#senderEmail').val( "" );
+    $('#message').val( "" );
+
+    $('#container').delay(messageDelay+500).fadeTo( 'slow', 1 );
+
+  } else {
+
+    // Form submission failed: Display the failure message,
+    // then redisplay the form
+    $('#failureMessage').fadeIn().delay(messageDelay).fadeOut();
+    $('#contactForm').delay(messageDelay+500).fadeIn();
+  }
+}
+ 
+
+</script>
+<script type="text/javascript">
+
+function show_alert(){alert("404 ERROR Page Unavailable");}
+</script>
+</head>
+
+<body>
+<div id="container">
+<div id="header"></div>
+
+<div id="nav1">
+
+<ul>
+	<li><a href="../index.html">Home</a></li>
+    <li><a href="#" onclick="show_alert()">XHTML</a></li>
+    <li><a href="css_intro.html">CSS</a></li>
+    <li><a href="#" onclick="show_alert()">DHTML</a></li>
+    <li><a href="#" onclick="show_alert()">Flash</a></li>
+    <li><a href="../javascript_pages/java_intro.html">JavaScript</a></li>
+    <li><a href="#" onclick="show_alert()">AdvHTML</a></li>
+    <li><a href="#" onclick="show_alert()">FAQ</a></li>
+    <li><a href="#contactForm">Contact</a></li>
+</ul>
+
+
+
+
+</div>
+
+
+<div id="sidebar">
+
+<div id="nav2">
+
+<ul>
+      	<li><a href="css_intro.html">Overview</a></li>
+        <li><a href="css_l1p1.html">Page 1</a></li>
+        <li><a href="css_l1p2.html">Page 2</a></li>
+        <li><a href="#">Page 3</a></li>
+        <li><a href="css_l1p4.html">Page 4</a></li>
+        <li><a href="css_l1p5.html">Page 5</a></li>
+        <li><a href="css_l1p6.html">Page 6</a></li>
+        <li><a href="css_l1p7.html">Page 7</a></li>
+        <li><a href="css_l1p8.html">Page 8</a></li>
+      </ul>
+
+
+
+</div>
+
+
+</div>
+
+<div id="body_content">
+<h1>Lesson 1 Page 3</h1>
+<p>It's about time we get to the good stuff! Launch your
+        favorite HTML editor and create a basic Web page: </p>
+      <p class="code">
+      &lt;HTML&gt;<br />
+      &lt;
+        HEAD&gt;<br />
+      &lt;
+        TITLE&gt;My First Stylesheet&lt;/TITLE&gt;<br />
+      &lt;
+        /HEAD&gt;<br />
+      &lt;
+        BODY&gt;<br />
+      &lt;
+        H1&gt;Stylesheets: The Tool of the Web Design Gods&lt;/H1&gt;<br />
+      &lt;
+        P&gt;Amaze your friends! Squash your enemies!&lt;/P&gt;<br />
+      &lt;
+        /BODY&gt;<br />
+      &lt;
+      /HTML&gt;</p>
+      
+<p>Very fancy. Now let's add some stylesheets. Simply insert the following
+      code anywhere within the 
+      <p class="code">&lt;HEAD&gt;&lt;/HEAD&gt;</p>
+    
+	<p class="code">&lt;STYLE TYPE=&quot;text/css&quot;&gt;<br />
+      &lt;
+      !--<br />
+      H1 { color: green; font-size: 37px; font-family: impact }<br />
+      P { text-indent: 1cm; background: yellow; font-family: courier }<br />
+      --&gt;<br />
+      &lt;
+    /STYLE&gt;
+	</p>
+	
+    <p>Open the page in your browser, and here's what you'll see: </p>
+    <p>Stylesheets:
+      The Tool of the Web Design Gods</p>
+    <p>Amaze your friends! Squash your enemies!</p>
+    <p>Click <a href="#">here</a> to see how it would
+      look if your browser doesn't support CSS. </p>
+    <p>Congratulations! You just created
+      your first stylesheets-enhanced Web page. </p>
+    <p>(If the &quot;Amaze your friends!&quot; line
+        doesn't have yellow behind it, then you'll need to update your browser
+        or you won't be able to complete
+              this tutorial. Netscape Communicator or Internet Explorer, version
+      4 or higher, is recommended.) </p>
+    <p><strong>Some Terminology </strong></p>
+    <p>Let's look at what's going on in this
+        newfangled code. At the core of cascading stylesheets are rules. The
+      simplest kind of rule
+            looks like
+                  this: 
+                  <p class="code">H1 {
+      color: green }</p>
+    <p>This rule tells the Web browser that all text
+        surrounded by &lt;H1&gt;&lt;/H1&gt; should
+      be displayed in green. </p>
+    <p>Each rule consists of a selector and
+        a declaration. In the example above, H1 is the selector. It's the HTML
+        tag that
+                    the style is
+                    being attached
+                    to. The declaration defines what the style actually is, and
+                    it also consists of two parts: the property (in this case,
+                    color)
+                    and the
+      value (green). </p>
+    <p>Any HTML tag can be used as a selector. Thus,
+        you can attach stylesheet information to any kind of element, from normal &lt;P&gt; text
+        to &lt;CODE&gt; and &lt;TABLE&gt; content.
+                      You can even use some cascading stylesheet properties on
+      graphics by applying them to &lt;IMG&gt;. </p>
+    <p>And as you can see from our
+        first stylesheets example, you can also group rules together. Earlier,
+        we set three different
+                      declarations
+                      all at once
+      for &lt;P&gt;. </p>
+    <p>Similarly, you can group selectors: H1,
+      P, BLOCKQUOTE { font-family: arial }</p>
+    <p>This rule specifies
+        that all text within &lt;H1&gt;, &lt;P&gt;, and &lt;BLOCKQUOTE&gt; tags
+      will display in the Arial font. </p>
+    <p><strong>Inheritance</strong> </p>
+    <p>Stylesheets rules are inherited from &quot;parent&quot; to &quot;child.&quot; Let's
+      look at an example: </p>
+    <p class="code">B { color: blue }</p>    
+    <p>This rule tells the browser that all text within &lt;B&gt; should<br/>
+       be blue. But what does the browser do in the following situation? </p>
+    <p class="code">&lt;
+      B&gt;All my Web pages will use cascading stylesheets within &lt;I&gt;four&lt;/I&gt; weeks.&lt;/B&gt;</p>
+    <p>There's
+        no rule set for the &lt;I&gt; tag. But since here it occurs within
+      the &lt;B&gt;, it inherits the latter's declarations.</p>    <p>So,
+                            the child displays in blue, just like its parent:      </p>
+    <p>All my Web pages
+                              will use cascading stylesheets
+        within four weeks. </p>    <p>OK, now we know how basic stylesheets
+        rules work. We've also seen one way to add stylesheets to Web
+                              pages,
+                              but there are
+                              other methods.
+                              Let's
+                              take
+                              a look. </p>
+</div></div>
+<div id="footer">&copy;Ian Heath 2012. All Rights Reserved.</div>
+<form id="contactForm" action="processForm.php" method="post">
+
+<h2>Contact...</h2>
+
+<ul>
+
+<li>
+<label for="senderName">Your Name</label>
+<input type="text" name="senderName" id="senderName" placeholder="Please type your name" required="required" maxlength="40"/>
+</li>
+
+<li>
+<label for="senderEmail">Your Email Address</label>
+<input type="email" name="senderEmail" id="senderEmail" placeholder="Please type your email address" required="required" maxlength="50"/>
+</li>
+
+<li>
+<label for="message" style="padding-top:.5em;">Comments</label>
+<textarea name="message" id="message" placeholder="Please type your message" required="required" cols="80" rows="10" maxlength="10000"></textarea>
+</li>
+
+</ul>
+
+<div id="formButtons">
+<input type="submit" id="sendMessage" name="sendMessage" value="Send Email"/>
+<input type="button" id="cancel" name="cancel" value="Cancel"/>
+</div>
+
+</form>
+</body>
+</html>

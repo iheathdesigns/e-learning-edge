@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>CSS Lesson 1 Page 2</title>
+<link href="../css/styles.css" rel="stylesheet" type="text/css" />
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js'></script>
+<script type="text/javascript">
+
+  
+	
+
+
+
+var messageDelay = 2000;  // How long to display status messages (in milliseconds)
+
+// Init the form once the document is ready
+$( init );
+
+
+// Initialize the form
+
+function init() {
+
+  // Hide the form initially.
+  // Make submitForm() the form's submit handler.
+  // Position the form so it sits in the centre of the browser window.
+  $('#contactForm').hide().submit( submitForm ).addClass( 'positioned' );
+	
+	
+		
+		
+  // When the "contact" link is clicked:
+  // 1. Fade the content out
+  // 2. Display the form
+  // 3. Move focus to the first field
+  // 4. Prevent the link being followed
+
+  $('a[href="#contactForm"]').click( function() {
+    $('#container').fadeTo( 'slow', .2 );
+    $('#contactForm').fadeIn( 'slow', function() {
+      $('#senderName').focus();
+    } )
+
+    return false;
+  } );
+  
+ 
+  // When the "Cancel" button is clicked, close the form
+  $('#cancel').click( function() { 
+    $('#contactForm').fadeOut();
+    $('#container').fadeTo( 'slow', 1 );
+  } );  
+
+  // When the "Escape" key is pressed, close the form
+  $('#contactForm').keydown( function( event ) {
+    if ( event.which == 27 ) {
+      $('#contactForm').fadeOut();
+      $('#container').fadeTo( 'slow', 1 );
+    }
+  } );
+
+}
+
+
+
+// Submit the form via Ajax
+
+function submitForm() {
+  var contactForm = $(this);
+
+  // Are all the fields filled in?
+
+  if ( !$('#senderName').val() || !$('#senderEmail').val() || !$('#message').val() ) {
+
+    // No; display a warning message and return to the form
+    $('#incompleteMessage').fadeIn().delay(messageDelay).fadeOut();
+    contactForm.fadeOut().delay(messageDelay).fadeIn();
+
+  } else {
+
+    // Yes; submit the form to the PHP script via Ajax
+
+    $('#sendingMessage').fadeIn();
+    contactForm.fadeOut();
+
+    $.ajax( {
+      url: contactForm.attr( 'action' ) + "?ajax=true",
+      type: contactForm.attr( 'method' ),
+      data: contactForm.serialize(),
+      success: submitFinished
+    } );
+  }
+
+  // Prevent the default form submission occurring
+  return false;
+}
+
+
+// Handle the Ajax response
+
+function submitFinished( response ) {
+  response = $.trim( response );
+  $('#sendingMessage').fadeOut();
+
+  if ( response == "success" ) {
+
+    // Form submitted successfully:
+    // 1. Display the success message
+    // 2. Clear the form fields
+    // 3. Fade the content back in
+
+    $('#successMessage').fadeIn().delay(messageDelay).fadeOut();
+    $('#senderName').val( "" );
+    $('#senderEmail').val( "" );
+    $('#message').val( "" );
+
+    $('#container').delay(messageDelay+500).fadeTo( 'slow', 1 );
+
+  } else {
+
+    // Form submission failed: Display the failure message,
+    // then redisplay the form
+    $('#failureMessage').fadeIn().delay(messageDelay).fadeOut();
+    $('#contactForm').delay(messageDelay+500).fadeIn();
+  }
+}
+ 
+
+</script>
+<script type="text/javascript">
+
+function show_alert(){alert("404 ERROR Page Unavailable");}
+</script>
+</head>
+
+<body>
+<div id="container">
+<div id="header"></div>
+<div id="nav1">
+
+<ul>
+	<li><a href="#">Home</a></li>
+    <li><a href="#" onclick="show_alert()">XHTML</a></li>
+    <li><a href="#">CSS</a></li>
+    <li><a href="#" onclick="show_alert()">DHTML</a></li>
+    <li><a href="#" onclick="show_alert()">Flash</a></li>
+    <li><a href="#">JavaScript</a></li>
+    <li><a href="#" onclick="show_alert()">AdvHTML</a></li>
+    <li><a href="#" onclick="show_alert()">FAQ</a></li>
+    <li><a href="#contactForm">Contact</a></li>
+</ul>
+
+
+
+
+</div>
+
+
+<div id="sidebar">
+
+<div id="nav2">
+
+<ul>
+      	<li><a href="#">Overview</a></li>
+        <li><a href="#">Page 1</a></li>
+        <li><a href="#">Page 2</a></li>
+        <li><a href="#">Page 3</a></li>
+        <li><a href="#">Page 4</a></li>
+        <li><a href="#">Page 5</a></li>
+        <li><a href="#">Page 6</a></li>
+        <li><a href="#">Page 7</a></li>
+        <li><a href="#">Page 8</a></li>
+      </ul>
+
+
+
+</div>
+
+
+</div>
+
+<div id="body_content">
+<h1>Lesson 1 Page 2</h1>
+<p>So what's so special about stylesheets? In a nutshell: </p>
+      <ul>
+        <li>You can separate form and structure. </li>
+        <li>You can control layout like
+          never before.</li>
+        <li>You can make smaller, faster pages. </li>
+        <li>You can maintain or update many
+          pages at once, faster and easier than before. </li>
+        <li>You can be browser friendly. </li>
+        <li>You can fancy up your pages with neato tricks, like have two visited
+          link colors or control text sizes with a iron fist. </li>
+      </ul>      
+      <p>Let's look at each benefit. </p>
+      <p><strong>You can separate form and structure.</strong> </p>
+      <p>HTML was never meant to control
+        the form or appearance of Web pages. It's a language that defines the
+        structure and function of elements on
+        a page.
+        It lets the Web browser decide how those elements should actually appear.      </p>
+      <p>But we perfectionist Web designers wanted more. So we rejoiced when
+        Netscape invented new HTML tags that let us begin to control appearance.
+        To make
+        body text look the way we wanted, we surrounded the &lt;P&gt; with &lt;FONT
+        FACE&gt;, &lt;I&gt;, and so on. And then we put everything inside a nested
+        table and used invisible spacer GIFs to push it over 20 pixels to create
+        a margin. What a mess. Our code became convoluted, and it was harder
+      and harder to create or move content to the Web quickly. </p>
+      <p>Cascading stylesheets
+        enable us to get more control the right way: by separating the part that
+        defines structure from the part that defines
+        form. The HTML
+        remains clean and simple, as originally intended, and the CSS code controls
+      appearances from afar. </p>
+      <p><strong>You can control layout like never before.</strong> </p>
+      <p>Sure, &lt;FONT SIZE&gt; enabled
+        us to resize text, and table tags helped us create margins. But overall,
+        what we could do with HTML was very limited.
+        We couldn't create text exactly 80 pixels tall, we couldn't specify margins
+        easily, we couldn't control the space between lines or words, we couldn't
+      precisely position images on the screen. </p>
+      <p>Until now. Stylesheets make
+          all these things possible and more. And the promise of what's to come
+          is even more exciting. In the next four lessons,
+        you'll see what I mean. </p>      <p><strong>You can make smaller, faster pages. </strong></p>
+      <p>Here's more good
+        news: Stylesheets are simple text, just like HTML. There are no graphics,
+        no executable program, no plug-ins, no streaming,
+            no
+        delays. It's as fast as straight HTML code. </p>
+      <p>And with CSS, you can do
+          things that you previously had to resort to GIFs for. But wait, there's
+          more! As I mentioned earlier, cascading
+            stylesheets also mean fewer table tags and other HTML hacks cluttering
+            up your code.
+          Less code and fewer graphics translate into smaller file sizes. </p>      <p><strong>You can
+      maintain or update many pages faster and easier.</strong> </p>
+      <p>Without stylesheets,
+        if I wanted to update the font used for body text across my entire site,
+        I'd have to manually edit each page. Even if my
+        site were served from a database, I'd still have to update all the templates,
+        and within each template, I'd have to change every single instance of
+      good ol' &lt;FONT FACE&gt;.</p>
+      <p>The whole point of stylesheets is to separate
+          form and structure. With stylesheets, I can have all the pages on my
+          site point to a single CSS
+          document. If I want to change the body text, all I do is change one
+        line in this stylesheets document, and the entire site instantly changes. </p>      <p><strong>You can be browser friendly.</strong> </p>
+      <p>Unlike some other Web
+        technologies I could name, CSS code degrades gracefully. That is, users
+        don't get a glaring broken icon if they're missing a plug-in
+        or code gibberish if they're using an older browser. Browsers that recognize
+        cascading stylesheets use it. Browsers that don't recognize CSS simply
+        ignore it. </p>
+      <p>Are you convinced that stylesheets are a good idea? OK, then
+          let's create one. </p>
+</div></div>
+<div id="footer">&copy;Ian Heath 2012. All Rights Reserved.</div>
+</body>
+</html>

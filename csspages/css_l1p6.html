@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>CSS Lesson 1 Page 6</title>
+<link href="../css/styles.css" rel="stylesheet" type="text/css" />
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js'></script>
+<script type="text/javascript">
+
+  
+	
+
+
+
+var messageDelay = 2000;  // How long to display status messages (in milliseconds)
+
+// Init the form once the document is ready
+$( init );
+
+
+// Initialize the form
+
+function init() {
+
+  // Hide the form initially.
+  // Make submitForm() the form's submit handler.
+  // Position the form so it sits in the centre of the browser window.
+  $('#contactForm').hide().submit( submitForm ).addClass( 'positioned' );
+	
+	
+		
+		
+  // When the "contact" link is clicked:
+  // 1. Fade the content out
+  // 2. Display the form
+  // 3. Move focus to the first field
+  // 4. Prevent the link being followed
+
+  $('a[href="#contactForm"]').click( function() {
+    $('#container').fadeTo( 'slow', .2 );
+    $('#contactForm').fadeIn( 'slow', function() {
+      $('#senderName').focus();
+    } )
+
+    return false;
+  } );
+  
+ 
+  // When the "Cancel" button is clicked, close the form
+  $('#cancel').click( function() { 
+    $('#contactForm').fadeOut();
+    $('#container').fadeTo( 'slow', 1 );
+  } );  
+
+  // When the "Escape" key is pressed, close the form
+  $('#contactForm').keydown( function( event ) {
+    if ( event.which == 27 ) {
+      $('#contactForm').fadeOut();
+      $('#container').fadeTo( 'slow', 1 );
+    }
+  } );
+
+}
+
+
+
+// Submit the form via Ajax
+
+function submitForm() {
+  var contactForm = $(this);
+
+  // Are all the fields filled in?
+
+  if ( !$('#senderName').val() || !$('#senderEmail').val() || !$('#message').val() ) {
+
+    // No; display a warning message and return to the form
+    $('#incompleteMessage').fadeIn().delay(messageDelay).fadeOut();
+    contactForm.fadeOut().delay(messageDelay).fadeIn();
+
+  } else {
+
+    // Yes; submit the form to the PHP script via Ajax
+
+    $('#sendingMessage').fadeIn();
+    contactForm.fadeOut();
+
+    $.ajax( {
+      url: contactForm.attr( 'action' ) + "?ajax=true",
+      type: contactForm.attr( 'method' ),
+      data: contactForm.serialize(),
+      success: submitFinished
+    } );
+  }
+
+  // Prevent the default form submission occurring
+  return false;
+}
+
+
+// Handle the Ajax response
+
+function submitFinished( response ) {
+  response = $.trim( response );
+  $('#sendingMessage').fadeOut();
+
+  if ( response == "success" ) {
+
+    // Form submitted successfully:
+    // 1. Display the success message
+    // 2. Clear the form fields
+    // 3. Fade the content back in
+
+    $('#successMessage').fadeIn().delay(messageDelay).fadeOut();
+    $('#senderName').val( "" );
+    $('#senderEmail').val( "" );
+    $('#message').val( "" );
+
+    $('#container').delay(messageDelay+500).fadeTo( 'slow', 1 );
+
+  } else {
+
+    // Form submission failed: Display the failure message,
+    // then redisplay the form
+    $('#failureMessage').fadeIn().delay(messageDelay).fadeOut();
+    $('#contactForm').delay(messageDelay+500).fadeIn();
+  }
+}
+ 
+
+</script>
+<script type="text/javascript">
+
+function show_alert(){alert("404 ERROR Page Unavailable");}
+</script>
+</head>
+
+<body>
+<div id="container">
+<div id="header"></div>
+<div id="nav1">
+
+<ul>
+	<li><a href="../index.html">Home</a></li>
+    <li><a href="#" onclick="show_alert()">XHTML</a></li>
+    <li><a href="css_intro.html">CSS</a></li>
+    <li><a href="#" onclick="show_alert()">DHTML</a></li>
+    <li><a href="#" onclick="show_alert()">Flash</a></li>
+    <li><a href="../javascript_pages/java_intro.html">JavaScript</a></li>
+    <li><a href="#" onclick="show_alert()">AdvHTML</a></li>
+    <li><a href="#" onclick="show_alert()">FAQ</a></li>
+    <li><a href="#contactForm">Contact</a></li>
+</ul>
+
+
+
+
+</div>
+<div id="sidebar">
+<div id="nav2">
+
+<ul>
+      	<li><a href="css_intro.html">Overview</a></li>
+        <li><a href="css_l1p1.html">Page 1</a></li>
+        <li><a href="css_l1p2.html">Page 2</a></li>
+        <li><a href="css_l1p3.html">Page 3</a></li>
+        <li><a href="css_l1p4.html">Page 4</a></li>
+        <li><a href="css_l1p5.html">Page 5</a></li>
+        <li><a href="#">Page 6</a></li>
+        <li><a href="css_l1p7.html">Page 7</a></li>
+        <li><a href="css_l1p8.html">Page 8</a></li>
+      </ul>
+
+
+
+</div>
+
+
+
+</div>
+
+<div id="body_content">
+<h1>Lesson 1 Page 6</h1>
+<p>The scene is set for battle. Let's say there are three
+        different stylesheets rules at work and all of them use <p class="code">P</p> as the selector.
+        An imported stylesheet tells the browser to display <p class="code">&lt;P&gt;</p> text in
+        red. An embedded stylesheet tells the browser to use blue. And an inline
+        stylesheet tells the browser to use yellow. </p>
+      <p>What's a poor Web browser
+          to do? </p>
+      <p>Thankfully, browsers that support stylesheets
+        have a built-in cascading order of rules that instructs them what to
+        do in these kinds of situations.
+        Ultimately, some kinds of stylesheets rules are more important than others.
+        According to the official specification of cascading stylesheets, here
+        is the order of importance: </p>      <ol>
+        <li><strong>Inline styles </strong></li>
+        <li><strong>Embedded styles </strong></li>
+        <li><strong>Linked styles </strong></li>
+        <li><strong>Imported styles </strong></li>
+        <li><strong>Default browser styles </strong></li>
+      </ol>      <p>So inline styles override embedded styles,
+        which override linked styles, and so on. </p>
+      <p>It's nice and elegant, right? Not so fast. Unfortunately, Netscape
+        and Microsoft have been slightly less than perfect in implementing this
+        order
+        in their browsers. If I apply styles to the same selector using all these
+        methods, then the browsers get it right and treat inline styles as most
+        important, embedded styles as next-most important, and so on. </p>
+      <p> But if my
+        styles are applied to different selectors and inheritance is involved,
+        all hell breaks loose. For example, both browsers give more importance
+        to linked styles than embedded styles. For now, your best bet is to stick
+        with one method of adding styles to Web pages, especially when you're
+        sure that stylesheet rules will conflict. </p>      <p>But even if this cascading order worked
+        perfectly, we would still have a problem. What happens when multiple
+        rules of the same kind conflict?
+        What happens, for example, if one embedded rule declares <p class="code">&lt;P&gt;</p> text
+        green and another embedded rule declares it red? </p>
+      <p> Thanks to the wise sages
+        who wrote the stylesheets specification, there's an order for solving
+        these conflicts too. It's complicated, but here's
+        an oversimplified guide to what browsers check for: </p>      <ol>
+        <li><strong>Use the one stylesheets
+          rule that's specifically declared.</strong><br />
+          <br />
+          Example: <br />
+          <br />
+          <p class="code">Body { color: green }<br />
+          P { color: red }</p> <br />
+          <br />
+          <p class="code">&lt;
+          P&gt; </p>text is specifically declared red by one rule, but it also inherits
+          the green value from the <p class="code">&lt;BODY&gt;</p> rule. (If you give <p class="code">&lt;BODY&gt;</p> a
+          declaration, everything on the entire page inherits it.) In this situation,
+          the specific rule outweighs the inherited value, so red wins out.<br />
+        </li>
+        <li><strong>Use the one stylesheets rule that's inherited. </strong><br />
+          <br />
+          If step number one doesn't result in a winner (i.e., if there's no
+          rule that's specifically declared or if there are multiple rules that
+          are
+          specifically declared), the browser moves on to this step. The browser
+          looks for an
+          inherited rule and uses one if it finds one. If it finds none or if
+          there are multiple inherited rules, the browser moves on to step number
+          three: <br />
+        </li>
+        <li><strong>Use the stylesheets rules in the order they appear in the code.<br />
+        </strong><br />
+          Example: <br />
+          <br />
+          <p class="code">P { color: green }<br />
+          P { color: red }</p> <br />
+          <br />
+          When all else fails, the browser resorts to using the order in which
+            the rules appear. In the above example, <p class="code">&lt;P&gt;</p> text would
+        display in red because it's the last rule given. </li>
+      </ol>      <p>Note: The official cascading stylesheets
+        specification goes into a lot more detail about this cascading order,
+        including other concepts of importance
+        and specificity, but since those are not well supported by the major
+        browsers, I won't bother to go into them here. </p>
+      <p>One final question: What happens when
+        stylesheets rules collide with HTML tags? Take a look at this example: </p>      <p class="code">I { font-family: impact } <br />
+&lt;
+        P&gt;</p>I think <p class="code">&lt;I&gt;&lt;FONT FACE=&quot;Times&quot;&gt;</p>East
+        of Eden<p class="code">&lt;/FONT&gt;&lt;/I&gt;</p> is
+        Steinbeck's best novel.<p class="code">&lt;/P&gt; </p>      
+      <p>The stylesheets rule tells the browser
+        to use Impact, but the familiar HTML <p class="code">&lt;FONT FACE&gt; </p>tag demands Times.
+        It's an obvious conflict. </p>
+      <p>According
+        to the official stylesheets specification, stylesheets should win out.
+        Only if there are no applicable CSS rules should the browser use
+        the HTML tag instead. </p>
+      <p>Unfortunately, the major browsers aren't built this
+        way. Netscape Communicator and Internet Explorer both treat HTML tags
+        as more important than stylesheets
+        rules if the HTML is closer to the affected text. Sigh. </p>
+      <p>As you can see,
+        there are all sorts of problems with the browsers' support of stylesheets.
+        Let's get the bad news over with. </p>
+</div></div>
+<div id="footer">&copy;Ian Heath 2012. All Rights Reserved.</div>
+<form id="contactForm" action="processForm.php" method="post">
+
+<h2>Contact...</h2>
+
+<ul>
+
+<li>
+<label for="senderName">Your Name</label>
+<input type="text" name="senderName" id="senderName" placeholder="Please type your name" required="required" maxlength="40"/>
+</li>
+
+<li>
+<label for="senderEmail">Your Email Address</label>
+<input type="email" name="senderEmail" id="senderEmail" placeholder="Please type your email address" required="required" maxlength="50"/>
+</li>
+
+<li>
+<label for="message" style="padding-top:.5em;">Comments</label>
+<textarea name="message" id="message" placeholder="Please type your message" required="required" cols="80" rows="10" maxlength="10000"></textarea>
+</li>
+
+</ul>
+
+<div id="formButtons">
+<input type="submit" id="sendMessage" name="sendMessage" value="Send Email"/>
+<input type="button" id="cancel" name="cancel" value="Cancel"/>
+</div>
+
+</form>
+</body>
+</html>

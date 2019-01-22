@@ -1,0 +1,17 @@
+#container{
+color:#333;
+height:800px;
+width:600px;
+}
+
+#header{
+color:#444;
+height:200px;
+width:800px;
+}
+
+#footer{
+color:#666;
+width:600px;
+height:800px;
+}
